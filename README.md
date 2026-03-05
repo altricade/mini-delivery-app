@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mini Delivery
 
-## Getting Started
+Веб-приложение для оформления заявок на доставку с многошаговой формой и историей заказов.
 
-First, run the development server:
+## Функционал
+
+### Оформление заявки (3 шага)
+
+**Шаг 1 — Отправитель**
+
+- Имя (обязательно, минимум 2 символа)
+- Телефон (обязательно, маска +7 (XXX) XXX-XX-XX)
+- Город отправления (обязательно)
+
+**Шаг 2 — Получатель и посылка**
+
+- Имя получателя (обязательно)
+- Город назначения (обязательно, не может совпадать с городом отправления)
+- Тип груза: документы / хрупкое / обычное
+- Вес, кг (от 0.1 до 30)
+
+**Шаг 3 — Подтверждение**
+
+- Сводка введённых данных
+- Чекбокс согласия с условиями
+- Кнопка «Отправить»
+
+### История заявок (/orders)
+
+- Список оформленных заявок
+- Поиск по имени получателя и городу назначения
+- Фильтрация по типу груза
+- Удаление заявки с подтверждением
+- Детальный просмотр заявки
+
+## Технологии
+
+- **Next.js 16** (App Router)
+- **TypeScript**
+- **Tailwind CSS**
+- **React Hook Form** + **Zod** (валидация)
+- **localStorage** (хранение данных)
+
+## Запуск
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Откройте [http://localhost:3000](http://localhost:3000) в браузере.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Сборка
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+## Деплой на GitHub Pages
 
-To learn more about Next.js, take a look at the following resources:
+Проект настроен для автоматического деплоя на GitHub Pages через GitHub Actions.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Включите GitHub Pages в настройках репозитория (Settings → Pages → Source: GitHub Actions)
+2. Пуш в ветку `main` автоматически запустит деплой
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Структура проекта
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/
+├── components/       # UI компоненты
+│   ├── steps/        # Шаги формы
+│   ├── DeliveryForm.tsx
+│   ├── FormInput.tsx
+│   ├── FormSelect.tsx
+│   ├── PhoneInput.tsx
+│   ├── Stepper.tsx
+│   ├── Header.tsx
+│   └── ConfirmDialog.tsx
+├── lib/              # Утилиты
+│   ├── validation.ts # Zod схемы
+│   ├── storage.ts    # localStorage
+│   └── cities.ts     # Список городов
+├── orders/           # Страницы заказов
+│   ├── page.tsx      # Список заказов
+│   └── detail/       # Детали заказа
+├── types/            # TypeScript типы
+└── page.tsx          # Главная страница
+```
