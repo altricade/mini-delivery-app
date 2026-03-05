@@ -1,27 +1,29 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Order } from "../../types";
 import { getOrderById, deleteOrder } from "../../lib/storage";
 import { getCityLabel } from "../../lib/cities";
 import ConfirmDialog from "../../components/ConfirmDialog";
-import { CARGO_TYPE_LABELS, STATUS_LABELS } from "@/app/constants/cargos";
+import { CARGO_TYPE_LABELS, STATUS_LABELS } from "../../constants/cargos";
 
-export default function OrderDetailPage() {
-  const params = useParams();
+export default function OrderDetailClient() {
+  const searchParams = useSearchParams();
   const router = useRouter();
   const [order, setOrder] = useState<Order | null>(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const id = params.id as string;
-    const foundOrder = getOrderById(id);
-    setOrder(foundOrder || null);
+    const id = searchParams.get("id");
+    if (id) {
+      const foundOrder = getOrderById(id);
+      setOrder(foundOrder || null);
+    }
     setIsLoading(false);
-  }, [params.id]);
+  }, [searchParams]);
 
   const handleDelete = () => {
     if (order) {
@@ -96,13 +98,13 @@ export default function OrderDetailPage() {
         </div>
 
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-          <div className="bg-linear-to-r from-blue-600 to-blue-700 p-6 text-white">
-            <div className="flex items-center justify-between">
+          <div className="bg-linear-to-r from-blue-600 to-blue-700 p-4 sm:p-6 text-white">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div>
-                <div className="flex items-center gap-3 text-2xl font-bold">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xl sm:text-2xl font-bold">
                   <span>{getCityLabel(order.senderCity)}</span>
                   <svg
-                    className="w-6 h-6"
+                    className="w-5 h-5 sm:w-6 sm:h-6 shrink-0"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -121,7 +123,7 @@ export default function OrderDetailPage() {
                 </p>
               </div>
               <span
-                className={`px-3 py-1 rounded-full text-sm font-medium ${
+                className={`self-start sm:self-center px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap ${
                   order.status === "delivered"
                     ? "bg-green-500 text-white"
                     : order.status === "in_transit"

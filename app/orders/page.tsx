@@ -67,7 +67,7 @@ export default function OrdersPage() {
                 placeholder="Поиск по имени получателя или городу..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none placeholder:text-gray-400 text-black"
               />
             </div>
             <div className="sm:w-48">
@@ -76,7 +76,7 @@ export default function OrdersPage() {
                 onChange={(e) =>
                   setCargoFilter(e.target.value as CargoType | "")
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white placeholder:text-gray-400 text-black"
               >
                 <option value="">Все типы груза</option>
                 {Object.entries(CARGO_TYPE_LABELS).map(([value, label]) => (
@@ -113,7 +113,10 @@ export default function OrdersPage() {
                 className="bg-white rounded-xl shadow-lg p-4 sm:p-6 hover:shadow-xl transition-shadow"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <Link href={`/orders/${order.id}`} className="flex-1 group">
+                  <Link
+                    href={`/orders/detail?id=${order.id}`}
+                    className="flex-1 group"
+                  >
                     <div className="flex items-center gap-2 text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
                       <span>{getCityLabel(order.senderCity)}</span>
                       <svg
